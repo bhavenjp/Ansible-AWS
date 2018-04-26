@@ -1,8 +1,8 @@
-# Ansible-AWS
-Ansible Playbooks for AWS Cloud
+# Ansible-AWS (Ansible Playbooks for AWS Cloud)
 
 
-Setup:
+
+Setup
 1) CentOS 7 server
 2) Install Python
 3) Install pip

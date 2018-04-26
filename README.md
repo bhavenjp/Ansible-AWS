@@ -1,8 +1,9 @@
-# Ansible-AWS (Ansible Playbooks for AWS Cloud)
+# Ansible-AWS 
+Ansible Playbooks for AWS Cloud
 
 
 
-Setup:
+# Setup
 1) CentOS 7 Server
 2) Install Python, pip
 4) Install boto, boto3, botocore
@@ -10,7 +11,7 @@ Setup:
 
 
 
-
+# Playbooks
 
 Playbook-01 (Creat VPC): create-vpc.yml
 

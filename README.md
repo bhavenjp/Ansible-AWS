@@ -8,3 +8,5 @@ Setup:
 4) Install boto
 5) Install Ansible
 
+
+Playbook-01: Creat AWS VPC

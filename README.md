@@ -10,5 +10,6 @@ Setup:
 
 
 Playbook-01 (Creat VPC): create-vpc.yml
+
 Playbook-02 (Create VPC Subnets): create-vpc-subnet.yml
 

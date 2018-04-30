@@ -1,16 +1,79 @@
 ---
-- name: Create AWS VPC
+- name: Create AWS VPC, Two Subnets, IGW and RouteTable for IGW
   hosts: localhost
   connection: local
   gather_facts: False
 
   tasks:
-  - name: Create AWS VPC in Singapore Region
+  - name: Create AWS VPC
     ec2_vpc_net:
+      state:            "present"
       name:             mySGVPC01
       cidr_block:       10.10.0.0/16
       region:           ap-southeast-1
-      aws_access_key:   xxxx
-      aws_secret_key:   xxxx
-      state:            "present"
+      aws_access_key:   "{{ aws_access_key }}"
+      aws_secret_key:   "{{ aws_secret_key }}
+    register: mySGVPC01
 
+  - name: Set VPC ID in a variable
+    set_fact:
+      mySGVPC01_id:           "{{ mySGVPC01.vpc.id }}"
+
+  - name: Create Public Subnet-1 in AZ-1
+    ec2_vpc_subnet:
+      state:            "present"
+      vpc_id:           "{{ mySGVPC01_id }}"
+      cidr:             10.10.1.0/24
+      az:               ap-southeast-1a
+      region:           ap-southeast-1
+      aws_access_key:   "{{ aws_access_key }}"
+      aws_secret_key:   "{{ aws_secret_key }}
+      resource_tags:
+        name:           "mySGVPC01 Public Subnet-1"
+    register: mySGVPC01_subnet1_AZ1
+
+  - name: Set Subnet ID in a variable
+    set_fact:
+      mySGVPC01_subnet1_AZ1_id:           "{{ mySGVPC01_subnet1_AZ1.subnet.id }}"
+
+  - name: Create Public Subnet-2 in AZ-1
+    ec2_vpc_subnet:
+      state:            "present"
+      vpc_id:           "{{ mySGVPC01_id }}"
+      cidr:             10.10.2.0/24
+      az:               ap-southeast-1a
+      region:           ap-southeast-1
+      aws_access_key:   "{{ aws_access_key }}"
+      aws_secret_key:   "{{ aws_secret_key }}
+      resource_tags:
+        name:           "mySGVPC01 Private Subnet-2"
+    register: mySGVPC01_subnet2_AZ1
+
+  - name: Set Subnet ID in a variable
+    set_fact:
+      mySGVPC01_subnet2_AZ1_id:           "{{ mySGVPC01_subnet2_AZ1.subnet.id }}"
+
+  - name: Create Internet Gateway in VPC
+    ec2_vpc_igw:
+      state:            "present"
+      vpc_id:           "{{ mySGVPC01_id }}"
+      region:           ap-southeast-1
+      aws_access_key:   "{{ aws_access_key }}"
+      aws_secret_key:   "{{ aws_secret_key }}
+    register: mySGVPC01_IGW
+
+  - name: Set IGW ID in a variable
+    set_fact:
+      mySGVPC01_IGW_id:           "{{ mySGVPC01_IGW.gateway_id }}"
+
+  - name: Set Public Route Table
+    ec2_vpc_route_table:
+      vpc_id:           "{{ mySGVPC01_id }}"
+      region:           ap-southeast-1
+      aws_access_key:   "{{ aws_access_key }}"
+      aws_secret_key:   "{{ aws_secret_key }}"
+      subnets:
+        - "{{ mySGVPC01_subnet1_AZ1_id }}"
+      routes:
+        - dest:         "0.0.0.0/0"
+          gateway_id:   "{{ mySGVPC01_IGW_id }}"

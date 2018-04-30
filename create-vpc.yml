@@ -1,6 +1,9 @@
 ---
 - name: Create AWS VPC, Two Subnets, IGW and RouteTable for IGW
   hosts: localhost
+  vars:
+    aws_access_key: xxxx
+    aws_secret_key: yyyy
   connection: local
   gather_facts: False
 
@@ -12,7 +15,7 @@
       cidr_block:       10.10.0.0/16
       region:           ap-southeast-1
       aws_access_key:   "{{ aws_access_key }}"
-      aws_secret_key:   "{{ aws_secret_key }}
+      aws_secret_key:   "{{ aws_secret_key }}"
     register: mySGVPC01
 
   - name: Set VPC ID in a variable
@@ -27,7 +30,7 @@
       az:               ap-southeast-1a
       region:           ap-southeast-1
       aws_access_key:   "{{ aws_access_key }}"
-      aws_secret_key:   "{{ aws_secret_key }}
+      aws_secret_key:   "{{ aws_secret_key }}"
       resource_tags:
         name:           "mySGVPC01 Public Subnet-1"
     register: mySGVPC01_subnet1_AZ1
@@ -44,7 +47,7 @@
       az:               ap-southeast-1a
       region:           ap-southeast-1
       aws_access_key:   "{{ aws_access_key }}"
-      aws_secret_key:   "{{ aws_secret_key }}
+      aws_secret_key:   "{{ aws_secret_key }}"
       resource_tags:
         name:           "mySGVPC01 Private Subnet-2"
     register: mySGVPC01_subnet2_AZ1
@@ -59,7 +62,7 @@
       vpc_id:           "{{ mySGVPC01_id }}"
       region:           ap-southeast-1
       aws_access_key:   "{{ aws_access_key }}"
-      aws_secret_key:   "{{ aws_secret_key }}
+      aws_secret_key:   "{{ aws_secret_key }}"
     register: mySGVPC01_IGW
 
   - name: Set IGW ID in a variable

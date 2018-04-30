@@ -15,10 +15,4 @@ Ansible Playbooks for AWS Cloud
 
 Playbook-01 (Creat VPC): create-vpc.yml
 
-Playbook-02 (Create VPC Subnets): create-vpc-subnet.yml
-
-Playbook-03 (Create Internet Gateway): create-vpc-igw.yml
-
-Playbook-04 (Create NAT Gateway): create-vpc-natgw.yml
-
-Playbook-05 (Create EC2 Instances): create-ec2.yml
+Playbook-02 (Create EIP): create-eip.yml
